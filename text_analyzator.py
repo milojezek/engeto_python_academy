@@ -115,7 +115,7 @@ for word in words:
 	if word.isdigit():
 		words.remove(word)
 
-# Dictionary of words and how many times they are in the text
+# Dictionary of words and how many times they occur in the text
 counts = {}
 for word in words:
 	counts[word] = counts.setdefault(word, 0) + 1
