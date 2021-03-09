@@ -70,18 +70,18 @@ lowercase_words = 0
 num_strings = 0
 all_num_sum = 0
 
-for word in lst:			# Counting all words (numeric strings included)
+for word in lst:				# Counting all words (numeric strings included)
 	all_words.append(word.strip('.,?!:'))
-for word in all_words:			# Counting titlecase words
+for word in all_words:				# Counting titlecase words
 	if word.istitle():
 		titlecase_words = titlecase_words + 1
-	elif word.isupper():		# Counting uppercase words
+	elif word.isupper():			# Counting uppercase words
 		uppercase_words = uppercase_words + 1
-	elif word.islower():		# Counting lowercase words
+	elif word.islower():			# Counting lowercase words
 		lowercase_words = lowercase_words + 1
-	elif word.isdigit():		# Counting numeric strings
-		numeric_strings = num_strings + 1
-		all_num_sum += str(word)
+	elif word.isdigit():			# Counting numeric strings
+		num_strings = num_strings + 1
+		all_num_sum += int(word)
 
 print(f"There are {len(all_words) - num_strings} in the selected text.")
 print(f"There are {titlecase_words} titlecase words.")
@@ -91,7 +91,7 @@ print(f"There are {num_strings} numeric strings.")
 print(f"The sum of all numbers is {all_num_sum}.")
 separator()
 
-counts = []				# Counting word occurence
+counts = []					# Counting word occurence
 for word in all_words:
 	word = word.lower()
 	if not word.isdigit():
