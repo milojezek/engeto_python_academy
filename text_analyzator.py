@@ -10,7 +10,7 @@ above sea level. The butte is located just
 north of US 30N and the Union Pacific Railroad, 
 which traverse the valley. ''',
 
-         '''At the base of Fossil Butte are the bright 
+'''At the base of Fossil Butte are the bright 
 red, purple, yellow and gray beds of the Wasatch 
 Formation. Eroded portions of these horizontal 
 beds slope gradually upward from the valley floor 
@@ -19,17 +19,16 @@ to the top of the butte are the much steeper
 buff-to-white beds of the Green River Formation, 
 which are about 300 feet thick.''',
 
-         '''The monument contains 8198 acres and protects 
+'''The monument contains 8198 acres and protects 
 a portion of the largest deposit of freshwater fish 
 fossils in the world. The richest fossil fish deposits 
 are found in multiple limestone layers, which lie some 
 100 feet below the top of the butte. The fossils 
 represent several varieties of perch, as well as 
 other freshwater genera and herring similar to those 
-in modern oceans. Other fish such as fpaddlefish, 
+in modern oceans. Other fish such as paddlefish, 
 garpike and stingray are also present.'''
 		]
-
 
 def separator():
 	print(30 * "-")
@@ -39,107 +38,70 @@ def separator():
 username = input("Username: ")
 password = input("Password: ")
 registered_users = {
-    "bob": "123",
-    "ann": "pass123",
-    "mike": "password123",
-    "liz": "pass123"
+	"bob": "123",
+	"ann": "pass123",
+	"mike": "password123",
+	"liz": "pass123"
 }
 
 # Check username and password
 if registered_users.get(username) == password:
-    separator()
-    print("Welcome to the app, " + username)
-    print("We have " + str(len(TEXTS)) + " texts to be analyzed.")
-    separator()
+	separator()
+	print("Welcome to the app, " + username)
+	print("We have " + str(len(TEXTS)) + " texts to be analyzed.")
+	separator()
 else:
-    sys.exit("It seems you're not a registered user.")
+	sys.exit("It seems you're not a registered user.")
 
 # Choose a text
 num_text = int(input("Enter a number between 1 and 3: "))
-if num_text == 1 or num_text == 2 or num_text == 3:
-    text = TEXTS[num_text - 1]
+if num_text in [1, 2, 3]:
+	text = TEXTS[num_text - 1]
 else:
-    sys.exit("Not supported.")
+	sys.exit("Not supported.")
 separator()
 
 # STATISTICS
-# Number of words in the text
-num_words = len(text.strip().split(" "))
-print(f"There are {num_words} in the selected text.")
+lst = text.split()				# Unclean list of all words
+all_words = []					# Clean list
+titlecase_words = 0
+uppercase_words = 0
+lowercase_words = 0
+num_strings = 0
+all_num_sum = 0
 
-titlecase_words = []
-uppercase_words = []
-lowercase_words = []
-numeric_strings = []
-all_number_sum = 0
+for word in lst:			# Counting all words (numeric strings included)
+	all_words.append(word.strip('.,?!:'))
+for word in all_words:			# Counting titlecase words
+	if word.istitle():
+		titlecase_words = titlecase_words + 1
+	elif word.isupper():		# Counting uppercase words
+		uppercase_words = uppercase_words + 1
+	elif word.islower():		# Counting lowercase words
+		lowercase_words = lowercase_words + 1
+	elif word.isdigit():		# Counting numeric strings
+		numeric_strings = num_strings + 1
+		all_num_sum += str(word)
 
-for word in text.split():
-    word = word.strip(",.")
-    if word.istitle():  # Number of titlecase words
-        titlecase_words.append(word)
-    elif word.isupper():  # Number of uppercase words
-        uppercase_words.append(word)
-    elif word.islower():  # Number of lowercase words
-        lowercase_words.append(word)
-    elif word.isdigit():  # Number of numeric strings
-        numeric_strings.append(word)
-
-for number in numeric_strings:  # Sum of all numbers
-    all_number_sum += int(number)
-
-print(f"There are {len(titlecase_words)} titlacase words.")
-print(f"There are {len(uppercase_words)} uppercase words.")
-print(f"There are {len(lowercase_words)} lowercase words.")
-print(f"There are {len(numeric_strings)} numeric strings.")
-print(f"The sum of all numbers is {all_number_sum}.")
+print(f"There are {len(all_words) - num_strings} in the selected text.")
+print(f"There are {titlecase_words} titlecase words.")
+print(f"There are {uppercase_words} uppercase words.")
+print(f"There are {lowercase_words} lowercase words.")
+print(f"There are {num_strings} numeric strings.")
+print(f"The sum of all numbers is {all_num_sum}.")
 separator()
 
-# List of words without dots, commas, numbers, space and big letters
-words = text.lower()
-words = words.strip(".,?")
-words = words.replace(".", "")
-words = words.replace(",", "")
-words = words.replace("?", "")
-words = words.split()
-
-for word in words:
-    if word.isdigit():
-        words.remove(word)
-
-# Dictionary of words and how many times they occur in the text
-counts = {}
-for word in words:
-    counts[word] = counts.setdefault(word, 0) + 1
+counts = []				# Counting word occurence
+for word in all_words:
+	word = word.lower()
+	if not word.isdigit():
+		counts.append(len(word))
 
 # GRAPH
-# data = {length of word: occurence as list}
-data = {}
-for key, value in counts.items():
-    if len(key) not in data:
-        data[len(key)] = [value]
-    else:
-        data[len(key)].append(value)
-
-# data_graph = {length of word: total occurence}
-data_graph = {}
-for key, value in data.items():
-    data_graph[key] = sum(value)
-
-# graph
-highest = int(max(data_graph.keys())) + 1
-print("LEN|  OCCURENCES" + (int(max(data_graph.values())) - 10) * " " + "|NR.")
-separator()
-for number in range(1, highest):
-    stars = None
-    if number in data_graph.keys():
-        stars = "*" * data_graph[number]
-    else:
-        stars = ""
-    nr = None
-    if number in data_graph.keys():
-        nr = data_graph[number]
-    else:
-        nr = ""
-
-    print((3 - len(str(number))) * " " + str(number) + "|" + stars +
-          ((int(max(data_graph.values())) - len(stars)) * " ") + 2 * " " + str(nr))
+print("LEN|  OCCURENCES" + 10 * " " + "|NR.")
+for num in range(1, max(counts) + 1):
+	print(
+		((3 - len(str(num))) * ' ') + str(num) + '|',
+		('*' * counts.count(num)),
+		((20 - counts.count(num)) * " ") + str(counts.count(num))
+	)
