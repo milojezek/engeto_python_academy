@@ -98,10 +98,9 @@ for word in all_words:
 		counts.append(len(word))
 
 # GRAPH
-print("LEN|  OCCURENCES" + 10 * " " + "|NR.")
+print('{0:3}|'.format('LEN') + '{0:^20}|'.format('OCCURENCES') + 'NR.')
 for num in range(1, max(counts) + 1):
-	print(
-		((3 - len(str(num))) * ' ') + str(num) + '|',
-		('*' * counts.count(num)),
-		((20 - counts.count(num)) * " ") + str(counts.count(num))
-	)
+	print('{0:>3}|'.format(str(num)) +
+		  '{0:<20}'.format('*' * counts.count(num)) +
+		  '{0:3}'.format(str(counts.count(num)))
+		  )
