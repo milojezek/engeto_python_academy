@@ -7,7 +7,6 @@ symbols = ['X', 'O']
 sep1 = "============================================"
 sep2 = "--------------------------------------------"
 
-
 # INTRODUCTION - say hello, game rules
 def print_intro():
 	print(f'''				Tic Tac Toe
@@ -58,7 +57,6 @@ def player_input(player):
 	except IndexError:
 		print("Invalid choice! You can type only numbers 1-9 ;)")
 		player_input(player)
-
 
 # WHO WON? FUNCTION
 def is_winner():
